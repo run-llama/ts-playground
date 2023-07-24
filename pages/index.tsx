@@ -10,6 +10,7 @@ import { Slider } from "@/components/ui/slider";
 
 const DEFAULT_CHUNK_SIZE = 1024;
 const DEFAULT_CHUNK_OVERLAP = 20;
+const DEFAULT_TOP_K = 2;
 
 export default function Home() {
   const answerId = useId();
@@ -17,6 +18,7 @@ export default function Home() {
   const chunkOverlapId = useId();
   const queryId = useId();
   const sourceId = useId();
+  const topKId = useId();
   const [text, setText] = useState(essay);
   const [query, setQuery] = useState("");
   const [needsNewIndex, setNeedsNewIndex] = useState(true);
@@ -25,6 +27,7 @@ export default function Home() {
   const [nodesWithEmbedding, setNodesWithEmbedding] = useState([]);
   const [chunkSize, setChunkSize] = useState(DEFAULT_CHUNK_SIZE);
   const [chunkOverlap, setChunkOverlap] = useState(DEFAULT_CHUNK_OVERLAP);
+  const [topK, setTopK] = useState(DEFAULT_TOP_K);
   const [answer, setAnswer] = useState("");
 
   return (
@@ -132,6 +135,29 @@ export default function Home() {
         >
           Build Vector Index
         </Button>
+        <div className="my-2">
+          <Label htmlFor={topKId}>Top K:</Label>
+          <div className="flex flex-row space-x-2">
+            <Slider
+              defaultValue={[DEFAULT_TOP_K]}
+              value={[topK]}
+              min={1}
+              max={15}
+              step={1}
+              onValueChange={(values: number[]) => {
+                setTopK(values[0]);
+              }}
+            />
+            <Input
+              id={topKId}
+              value={topK}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                setTopK(parseInt(e.target.value));
+              }}
+              className="max-w-[100px]"
+            />
+          </div>
+        </div>
         <div className="my-2 space-y-2">
           <Label htmlFor={queryId}>Query:</Label>
           <div className="flex w-full space-x-2">
@@ -156,6 +182,7 @@ export default function Home() {
                   },
                   body: JSON.stringify({
                     query,
+                    topK,
                     nodesWithEmbedding,
                   }),
                 });

@@ -1,10 +1,16 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { IndexDict, TextNode, VectorStoreIndex } from "llamaindex";
+import {
+  IndexDict,
+  RetrieverQueryEngine,
+  TextNode,
+  VectorStoreIndex,
+} from "llamaindex";
 
 type Input = {
   query: string;
+  topK?: number;
   nodesWithEmbedding: {
     text: string;
     embedding: number[];
@@ -27,7 +33,7 @@ export default async function handler(
     return;
   }
 
-  const { query, nodesWithEmbedding }: Input = req.body;
+  const { query, topK, nodesWithEmbedding }: Input = req.body;
 
   const embeddingResults = nodesWithEmbedding.map((config) => {
     return {
@@ -52,7 +58,9 @@ export default async function handler(
   await index.indexStore?.addIndexStruct(indexDict);
   index.indexStruct = indexDict;
 
-  const queryEngine = index.asQueryEngine();
+  const retriever = index.asRetriever();
+  retriever.similarityTopK = topK ?? 2;
+  const queryEngine = new RetrieverQueryEngine(retriever);
   const result = await queryEngine.query(query);
 
   res.status(200).json({ payload: { response: result.response } });

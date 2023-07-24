@@ -39,8 +39,8 @@ dependencies:
     specifier: 13.4.12
     version: 13.4.12(eslint@8.45.0)(typescript@5.1.6)
   llamaindex:
-    specifier: ^0.0.10
-    version: 0.0.10
+    specifier: ^0.0.11
+    version: 0.0.11
   lucide-react:
     specifier: ^0.263.0
     version: 0.263.0(react@18.2.0)
@@ -2064,8 +2064,8 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: false
 
-  /llamaindex@0.0.10:
-    resolution: {integrity: sha512-K9C+6+QR6O6pwHPVnDihOo3PiR9n3vRFrcGvP2hQineMXP3mNgqV7ZN0i1k94lJM2MEruXwFSzNlbdncCLBZLA==}
+  /llamaindex@0.0.11:
+    resolution: {integrity: sha512-bdkN6bEgUGsNEy2mn7tIDYtT8+dC/ot9Nq6Wr3S5VK3cqdlJwS87rmqubLO5cqDVc7VBV6cdv1EeYccsvd3tzQ==}
     engines: {node: '>=18.0.0'}
     dependencies:
       js-tiktoken: 1.0.7
