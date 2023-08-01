@@ -1,12 +1,12 @@
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import Head from "next/head";
 import { ChangeEvent, useId, useState } from "react";
 
-import essay from "@/lib/essay";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
+import { Label } from "@/components/ui/label";
+import { LinkedSlider } from "@/components/ui/linkedslider";
+import { Textarea } from "@/components/ui/textarea";
+import essay from "@/lib/essay";
 
 const DEFAULT_CHUNK_SIZE = 1024;
 const DEFAULT_CHUNK_OVERLAP = 20;
@@ -35,61 +35,47 @@ export default function Home() {
       <Head>
         <title>LlamaIndex.TS Playground</title>
       </Head>
-      <main className="flex flex-col mx-2 lg:mx-56 h-full">
+      <main className="mx-2 flex h-full flex-col lg:mx-56">
         <div className="space-y-2">
           <Label>Settings:</Label>
           <div>
-            <Label htmlFor={chunkSizeId}>Chunk Size:</Label>
-            <div className="flex flex-row space-x-2">
-              <Slider
-                defaultValue={[DEFAULT_CHUNK_SIZE]}
-                value={[chunkSize]}
-                min={1}
-                max={3000}
-                step={1}
-                onValueChange={(values: number[]) => {
-                  setChunkSize(values[0]);
-                  setNeedsNewIndex(true);
-                }}
-              />
-              <Input
-                id={chunkSizeId}
-                value={chunkSize}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  setChunkSize(parseInt(e.target.value));
-                  setNeedsNewIndex(true);
-                }}
-                className="max-w-[100px]"
-              />
-            </div>
+            <LinkedSlider
+              label="Chunk Size:"
+              description={
+                "The maximum size of the chunks we are searching over, in tokens. " +
+                "The bigger the chunk, the more likely that the information you are looking " +
+                "for is in the chunk, but also the more likely that the chunk will contain " +
+                "irrelevant information."
+              }
+              min={1}
+              max={3000}
+              step={1}
+              value={chunkSize}
+              onChange={(value: number) => {
+                setChunkSize(value);
+                setNeedsNewIndex(true);
+              }}
+            />
           </div>
           <div>
-            <Label htmlFor={chunkOverlapId}>Chunk Overlap:</Label>
-            <div className="flex flex-row space-x-2">
-              <Slider
-                defaultValue={[DEFAULT_CHUNK_OVERLAP]}
-                value={[chunkOverlap]}
-                min={1}
-                max={600}
-                step={1}
-                onValueChange={(values: number[]) => {
-                  setChunkOverlap(values[0]);
-                  setNeedsNewIndex(true);
-                }}
-              />
-              <Input
-                id={chunkOverlapId}
-                value={chunkOverlap}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  setChunkSize(parseInt(e.target.value));
-                  setNeedsNewIndex(true);
-                }}
-                className="max-w-[100px]"
-              />
-            </div>
+            <LinkedSlider
+              label="Chunk Overlap:"
+              description={
+                "The maximum amount of overlap between chunks, in tokens. " +
+                "Overlap helps ensure that sufficient contextual information is retained."
+              }
+              min={1}
+              max={600}
+              step={1}
+              value={chunkOverlap}
+              onChange={(value: number) => {
+                setChunkOverlap(value);
+                setNeedsNewIndex(true);
+              }}
+            />
           </div>
         </div>
-        <div className="flex flex-col flex-auto h-3/4 my-2 space-y-2">
+        <div className="my-2 flex h-3/4 flex-auto flex-col space-y-2">
           <Label htmlFor={sourceId}>Source text:</Label>
           <Textarea
             id={sourceId}
@@ -135,29 +121,21 @@ export default function Home() {
         >
           Build Vector Index
         </Button>
-        <div className="my-2">
-          <Label htmlFor={topKId}>Top K:</Label>
-          <div className="flex flex-row space-x-2">
-            <Slider
-              defaultValue={[DEFAULT_TOP_K]}
-              value={[topK]}
-              min={1}
-              max={15}
-              step={1}
-              onValueChange={(values: number[]) => {
-                setTopK(values[0]);
-              }}
-            />
-            <Input
-              id={topKId}
-              value={topK}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                setTopK(parseInt(e.target.value));
-              }}
-              className="max-w-[100px]"
-            />
-          </div>
-        </div>
+        <LinkedSlider
+          className="my-2"
+          label="Top K:"
+          description={
+            "The maximum number of chunks to return from the search. " +
+            "It's called Top K because we are retrieving the K nearest neighbors of the query."
+          }
+          min={1}
+          max={15}
+          step={1}
+          value={topK}
+          onChange={(value: number) => {
+            setTopK(value);
+          }}
+        />
         <div className="my-2 space-y-2">
           <Label htmlFor={queryId}>Query:</Label>
           <div className="flex w-full space-x-2">
@@ -204,7 +182,7 @@ export default function Home() {
             </Button>
           </div>
         </div>
-        <div className="flex flex-col flex-auto h-1/4 my-2 space-y-2">
+        <div className="my-2 flex h-1/4 flex-auto flex-col space-y-2">
           <Label htmlFor={answerId}>Answer:</Label>
           <Textarea className="flex-1" readOnly value={answer} id={answerId} />
         </div>
