@@ -10,6 +10,8 @@ import {
 
 type Input = {
   query: string;
+  temperature: number;
+  topT: number;
   topK?: number;
   nodesWithEmbedding: {
     text: string;
@@ -26,14 +28,17 @@ type Output = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Output>
+  res: NextApiResponse<Output>,
 ) {
   if (req.method !== "POST") {
     res.status(405).json({ error: "Method not allowed" });
     return;
   }
 
-  const { query, topK, nodesWithEmbedding }: Input = req.body;
+  const { query, temperature, topT, topK, nodesWithEmbedding }: Input =
+    req.body;
+
+  console.log(temperature, topT);
 
   const embeddingResults = nodesWithEmbedding.map((config) => {
     return {
@@ -52,7 +57,7 @@ export default async function handler(
   if (!index.vectorStore.storesText) {
     await index.docStore.addDocuments(
       embeddingResults.map((result) => result.node),
-      true
+      true,
     );
   }
   await index.indexStore?.addIndexStruct(indexDict);

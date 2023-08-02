@@ -11,6 +11,8 @@ import essay from "@/lib/essay";
 const DEFAULT_CHUNK_SIZE = 1024;
 const DEFAULT_CHUNK_OVERLAP = 20;
 const DEFAULT_TOP_K = 2;
+const DEFAULT_TEMPERATURE = 1;
+const DEFAULT_TOP_T = 1;
 
 export default function Home() {
   const answerId = useId();
@@ -28,7 +30,10 @@ export default function Home() {
   const [chunkSize, setChunkSize] = useState(DEFAULT_CHUNK_SIZE);
   const [chunkOverlap, setChunkOverlap] = useState(DEFAULT_CHUNK_OVERLAP);
   const [topK, setTopK] = useState(DEFAULT_TOP_K);
+  const [temprature, setTemperature] = useState(DEFAULT_TEMPERATURE);
+  const [topT, setTopT] = useState(DEFAULT_TOP_T);
   const [answer, setAnswer] = useState("");
+  console.log(temprature);
 
   return (
     <>
@@ -136,6 +141,33 @@ export default function Home() {
             setTopK(value);
           }}
         />
+
+        <LinkedSlider
+          className="my-2"
+          label="Temprature:"
+          description={"Fill in"}
+          min={1}
+          max={100}
+          step={1}
+          value={temprature}
+          onChange={(value: number) => {
+            setTemperature(value);
+          }}
+        />
+
+        <LinkedSlider
+          className="my-2"
+          label="Top T:"
+          description={"Fill in"}
+          min={1}
+          max={15}
+          step={1}
+          value={topT}
+          onChange={(value: number) => {
+            setTopT(value);
+          }}
+        />
+
         <div className="my-2 space-y-2">
           <Label htmlFor={queryId}>Query:</Label>
           <div className="flex w-full space-x-2">
@@ -162,6 +194,8 @@ export default function Home() {
                     query,
                     topK,
                     nodesWithEmbedding,
+                    temprature,
+                    topT,
                   }),
                 });
 
