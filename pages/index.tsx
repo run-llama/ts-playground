@@ -30,10 +30,9 @@ export default function Home() {
   const [chunkSize, setChunkSize] = useState(DEFAULT_CHUNK_SIZE);
   const [chunkOverlap, setChunkOverlap] = useState(DEFAULT_CHUNK_OVERLAP);
   const [topK, setTopK] = useState(DEFAULT_TOP_K);
-  const [temprature, setTemperature] = useState(DEFAULT_TEMPERATURE);
+  const [temperature, setTemperature] = useState(DEFAULT_TEMPERATURE);
   const [topT, setTopT] = useState(DEFAULT_TOP_T);
   const [answer, setAnswer] = useState("");
-  console.log(temprature);
 
   return (
     <>
@@ -149,7 +148,7 @@ export default function Home() {
           min={1}
           max={100}
           step={1}
-          value={temprature}
+          value={temperature}
           onChange={(value: number) => {
             setTemperature(value);
           }}
@@ -194,7 +193,7 @@ export default function Home() {
                     query,
                     topK,
                     nodesWithEmbedding,
-                    temprature,
+                    temperature,
                     topT,
                   }),
                 });

@@ -45,9 +45,9 @@ const LinkedSlider = ({
         <Label htmlFor={inputId}>{label}</Label>
         <Popover>
           <PopoverTrigger>
-            <Button variant="ghost" size="icon">
+            {/* <Button variant="ghost" size="icon">
               <QuestionMarkCircledIcon className="h-4 w-4" />
-            </Button>
+            </Button> */}
           </PopoverTrigger>
           <PopoverContent>{description}</PopoverContent>
         </Popover>

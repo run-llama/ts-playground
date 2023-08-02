@@ -10,13 +10,13 @@ import {
 
 type Input = {
   query: string;
-  temperature: number;
-  topT: number;
   topK?: number;
   nodesWithEmbedding: {
     text: string;
     embedding: number[];
   }[];
+  temperature: number;
+  topT: number;
 };
 
 type Output = {
@@ -35,10 +35,8 @@ export default async function handler(
     return;
   }
 
-  const { query, temperature, topT, topK, nodesWithEmbedding }: Input =
+  const { query, topK, nodesWithEmbedding, temperature, topT }: Input =
     req.body;
-
-  console.log(temperature, topT);
 
   const embeddingResults = nodesWithEmbedding.map((config) => {
     return {
