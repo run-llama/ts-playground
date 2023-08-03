@@ -143,7 +143,7 @@ export default function Home() {
 
         <LinkedSlider
           className="my-2"
-          label="Temprature:"
+          label="Temperature:"
           description={"Fill in"}
           min={0}
           max={2}
@@ -156,7 +156,7 @@ export default function Home() {
 
         <LinkedSlider
           className="my-2"
-          label="Top T:"
+          label="Top P:"
           description={"Fill in"}
           min={0}
           max={1}
