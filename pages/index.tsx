@@ -31,7 +31,7 @@ export default function Home() {
   const [chunkOverlap, setChunkOverlap] = useState(DEFAULT_CHUNK_OVERLAP);
   const [topK, setTopK] = useState(DEFAULT_TOP_K);
   const [temperature, setTemperature] = useState(DEFAULT_TEMPERATURE);
-  const [topT, setTopT] = useState(DEFAULT_TOP_T);
+  const [topP, setTopP] = useState(DEFAULT_TOP_T);
   const [answer, setAnswer] = useState("");
 
   return (
@@ -145,9 +145,9 @@ export default function Home() {
           className="my-2"
           label="Temprature:"
           description={"Fill in"}
-          min={1}
-          max={100}
-          step={1}
+          min={0}
+          max={2}
+          step={0.1}
           value={temperature}
           onChange={(value: number) => {
             setTemperature(value);
@@ -158,12 +158,12 @@ export default function Home() {
           className="my-2"
           label="Top T:"
           description={"Fill in"}
-          min={1}
-          max={15}
-          step={1}
-          value={topT}
+          min={0}
+          max={1}
+          step={0.1}
+          value={topP}
           onChange={(value: number) => {
-            setTopT(value);
+            setTopP(value);
           }}
         />
 
@@ -194,7 +194,7 @@ export default function Home() {
                     topK,
                     nodesWithEmbedding,
                     temperature,
-                    topT,
+                    topP,
                   }),
                 });
 

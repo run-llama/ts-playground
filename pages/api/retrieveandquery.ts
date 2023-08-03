@@ -3,9 +3,11 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import {
   IndexDict,
+  OpenAI,
   RetrieverQueryEngine,
   TextNode,
   VectorStoreIndex,
+  serviceContextFromDefaults,
 } from "llamaindex";
 
 type Input = {
@@ -16,7 +18,7 @@ type Input = {
     embedding: number[];
   }[];
   temperature: number;
-  topT: number;
+  topP: number;
 };
 
 type Output = {
@@ -35,7 +37,7 @@ export default async function handler(
     return;
   }
 
-  const { query, topK, nodesWithEmbedding, temperature, topT }: Input =
+  const { query, topK, nodesWithEmbedding, temperature, topP }: Input =
     req.body;
 
   const embeddingResults = nodesWithEmbedding.map((config) => {
@@ -49,7 +51,12 @@ export default async function handler(
     indexDict.addNode(node);
   }
 
-  const index = await VectorStoreIndex.init({ indexStruct: indexDict });
+  const index = await VectorStoreIndex.init({
+    indexStruct: indexDict,
+    serviceContext: serviceContextFromDefaults({
+      llm: new OpenAI({ temperature: temperature, topP: topP }),
+    }),
+  });
 
   index.vectorStore.add(embeddingResults);
   if (!index.vectorStore.storesText) {
@@ -63,7 +70,9 @@ export default async function handler(
 
   const retriever = index.asRetriever();
   retriever.similarityTopK = topK ?? 2;
+
   const queryEngine = new RetrieverQueryEngine(retriever);
+
   const result = await queryEngine.query(query);
 
   res.status(200).json({ payload: { response: result.response } });
