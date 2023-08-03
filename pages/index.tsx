@@ -11,8 +11,8 @@ import essay from "@/lib/essay";
 const DEFAULT_CHUNK_SIZE = 1024;
 const DEFAULT_CHUNK_OVERLAP = 20;
 const DEFAULT_TOP_K = 2;
-const DEFAULT_TEMPERATURE = 1;
-const DEFAULT_TOP_T = 1;
+const DEFAULT_TEMPERATURE = 0;
+const DEFAULT_TOP_P = 0;
 
 export default function Home() {
   const answerId = useId();
@@ -31,7 +31,7 @@ export default function Home() {
   const [chunkOverlap, setChunkOverlap] = useState(DEFAULT_CHUNK_OVERLAP);
   const [topK, setTopK] = useState(DEFAULT_TOP_K);
   const [temperature, setTemperature] = useState(DEFAULT_TEMPERATURE);
-  const [topP, setTopP] = useState(DEFAULT_TOP_T);
+  const [topP, setTopP] = useState(DEFAULT_TOP_P);
   const [answer, setAnswer] = useState("");
 
   return (
