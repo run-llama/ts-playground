@@ -146,7 +146,7 @@ export default function Home() {
           label="Temperature:"
           description={"Fill in"}
           min={0}
-          max={2}
+          max={1}
           step={0.1}
           value={temperature}
           onChange={(value: number) => {
@@ -161,6 +161,7 @@ export default function Home() {
           min={0}
           max={1}
           step={0.1}
+          
           value={topP}
           onChange={(value: number) => {
             setTopP(value);
