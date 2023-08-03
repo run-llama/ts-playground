@@ -12,7 +12,7 @@ const DEFAULT_CHUNK_SIZE = 1024;
 const DEFAULT_CHUNK_OVERLAP = 20;
 const DEFAULT_TOP_K = 2;
 const DEFAULT_TEMPERATURE = 0;
-const DEFAULT_TOP_P = 0;
+const DEFAULT_TOP_P = 1;
 
 export default function Home() {
   const answerId = useId();
@@ -161,7 +161,6 @@ export default function Home() {
           min={0}
           max={1}
           step={0.1}
-          
           value={topP}
           onChange={(value: number) => {
             setTopP(value);
