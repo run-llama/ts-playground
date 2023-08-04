@@ -1,7 +1,6 @@
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 import { ChangeEvent, useId } from "react";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -45,9 +44,7 @@ const LinkedSlider = ({
         <Label htmlFor={inputId}>{label}</Label>
         <Popover>
           <PopoverTrigger>
-            <Button variant="ghost" size="icon">
-              <QuestionMarkCircledIcon className="h-4 w-4" />
-            </Button>
+            <QuestionMarkCircledIcon className="h-4 w-4" />
           </PopoverTrigger>
           <PopoverContent>{description}</PopoverContent>
         </Popover>
