@@ -144,10 +144,13 @@ export default function Home() {
         <LinkedSlider
           className="my-2"
           label="Temperature:"
-          description={"Fill in"}
+          description={
+            "Temperature controls the variability of model response. Adjust it " +
+            "downwards to get more consistent responses, and upwards to get more diversity."
+          }
           min={0}
           max={1}
-          step={0.1}
+          step={0.01}
           value={temperature}
           onChange={(value: number) => {
             setTemperature(value);
@@ -157,10 +160,15 @@ export default function Home() {
         <LinkedSlider
           className="my-2"
           label="Top P:"
-          description={"Fill in"}
+          description={
+            "Top P is another way to control the variability of the model " +
+            "response. It filters out low probability options for the model. It's " +
+            "recommended by OpenAI to set temperature to 1 if you're adjusting " +
+            "the top P."
+          }
           min={0}
           max={1}
-          step={0.1}
+          step={0.01}
           value={topP}
           onChange={(value: number) => {
             setTopP(value);
