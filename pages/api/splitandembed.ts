@@ -1,5 +1,4 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from "next";
 import {
   Document,
   MetadataMode,
@@ -8,6 +7,7 @@ import {
   getNodesFromDocument,
   serviceContextFromDefaults,
 } from "llamaindex";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 type Input = {
   document: string;
@@ -27,7 +27,7 @@ type Output = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Output>
+  res: NextApiResponse<Output>,
 ) {
   if (req.method !== "POST") {
     res.status(405).json({ error: "Method not allowed" });
@@ -38,13 +38,13 @@ export default async function handler(
 
   const nodes = getNodesFromDocument(
     new Document({ text: document }),
-    new SentenceSplitter(chunkSize, chunkOverlap)
+    new SentenceSplitter(chunkSize, chunkOverlap),
   );
 
   const nodesWithEmbeddings = await VectorStoreIndex.getNodeEmbeddingResults(
     nodes,
     serviceContextFromDefaults(),
-    true
+    true,
   );
 
   res.status(200).json({
