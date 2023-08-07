@@ -67,7 +67,7 @@ const LinkedSlider = ({
           step={step}
           value={value}
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            onChange(parseInt(e.target.value));
+            onChange(parseFloat(e.target.value));
           }}
           className="max-w-[100px]"
         />
