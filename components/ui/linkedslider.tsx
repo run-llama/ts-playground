@@ -17,8 +17,8 @@ interface LinkedSliderProps {
   min: number;
   max: number;
   step: number;
-  value: number;
-  onChange: (value: number) => void;
+  value: string;
+  onChange: (value: string) => void;
 }
 
 /**
@@ -51,12 +51,12 @@ const LinkedSlider = ({
       </div>
       <div className="flex flex-row space-x-2">
         <Slider
-          value={[value]}
+          value={[parseFloat(value)]}
           min={min}
           max={max}
           step={step}
           onValueChange={(values: number[]) => {
-            onChange(values[0]);
+            onChange(values[0].toString());
           }}
         />
         <Input
@@ -67,7 +67,7 @@ const LinkedSlider = ({
           step={step}
           value={value}
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            onChange(parseFloat(e.target.value));
+            onChange(e.target.value);
           }}
           className="max-w-[100px]"
         />
