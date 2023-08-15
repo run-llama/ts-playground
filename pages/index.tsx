@@ -125,110 +125,120 @@ export default function Home() {
             setBuildingIndex(false);
           }}
         >
-          Build Vector Index
+          {buildingIndex ? "Building Vector index..." : "Build index"}
         </Button>
-        <LinkedSlider
-          className="my-2"
-          label="Top K:"
-          description={
-            "The maximum number of chunks to return from the search. " +
-            "It's called Top K because we are retrieving the K nearest neighbors of the query."
-          }
-          min={1}
-          max={15}
-          step={1}
-          value={topK}
-          onChange={(value: string) => {
-            setTopK(value);
-          }}
-        />
 
-        <LinkedSlider
-          className="my-2"
-          label="Temperature:"
-          description={
-            "Temperature controls the variability of model response. Adjust it " +
-            "downwards to get more consistent responses, and upwards to get more diversity."
-          }
-          min={0}
-          max={1}
-          step={0.01}
-          value={temperature}
-          onChange={(value: string) => {
-            setTemperature(value);
-          }}
-        />
-
-        <LinkedSlider
-          className="my-2"
-          label="Top P:"
-          description={
-            "Top P is another way to control the variability of the model " +
-            "response. It filters out low probability options for the model. It's " +
-            "recommended by OpenAI to set temperature to 1 if you're adjusting " +
-            "the top P."
-          }
-          min={0}
-          max={1}
-          step={0.01}
-          value={topP}
-          onChange={(value: string) => {
-            setTopP(value);
-          }}
-        />
-
-        <div className="my-2 space-y-2">
-          <Label htmlFor={queryId}>Query:</Label>
-          <div className="flex w-full space-x-2">
-            <Input
-              id={queryId}
-              value={query}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                setQuery(e.target.value);
+        {!buildingIndex && !needsNewIndex && !runningQuery && (
+          <>
+            <LinkedSlider
+              className="my-2"
+              label="Top K:"
+              description={
+                "The maximum number of chunks to return from the search. " +
+                "It's called Top K because we are retrieving the K nearest neighbors of the query."
+              }
+              min={1}
+              max={15}
+              step={1}
+              value={topK}
+              onChange={(value: string) => {
+                setTopK(value);
               }}
             />
-            <Button
-              type="submit"
-              disabled={needsNewIndex || buildingIndex || runningQuery}
-              onClick={async () => {
-                setAnswer("Running query...");
-                setRunningQuery(true);
-                // Post the query and nodesWithEmbedding to the server
-                const result = await fetch("/api/retrieveandquery", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    query,
-                    nodesWithEmbedding,
-                    topK: parseInt(topK),
-                    temperature: parseFloat(temperature),
-                    topP: parseFloat(topP),
-                  }),
-                });
 
-                const { error, payload } = await result.json();
-
-                if (error) {
-                  setAnswer(error);
-                }
-
-                if (payload) {
-                  setAnswer(payload.response);
-                }
-
-                setRunningQuery(false);
+            <LinkedSlider
+              className="my-2"
+              label="Temperature:"
+              description={
+                "Temperature controls the variability of model response. Adjust it " +
+                "downwards to get more consistent responses, and upwards to get more diversity."
+              }
+              min={0}
+              max={1}
+              step={0.01}
+              value={temperature}
+              onChange={(value: string) => {
+                setTemperature(value);
               }}
-            >
-              Submit
-            </Button>
-          </div>
-        </div>
-        <div className="my-2 flex h-1/4 flex-auto flex-col space-y-2">
-          <Label htmlFor={answerId}>Answer:</Label>
-          <Textarea className="flex-1" readOnly value={answer} id={answerId} />
-        </div>
+            />
+
+            <LinkedSlider
+              className="my-2"
+              label="Top P:"
+              description={
+                "Top P is another way to control the variability of the model " +
+                "response. It filters out low probability options for the model. It's " +
+                "recommended by OpenAI to set temperature to 1 if you're adjusting " +
+                "the top P."
+              }
+              min={0}
+              max={1}
+              step={0.01}
+              value={topP}
+              onChange={(value: string) => {
+                setTopP(value);
+              }}
+            />
+
+            <div className="my-2 space-y-2">
+              <Label htmlFor={queryId}>Query:</Label>
+              <div className="flex w-full space-x-2">
+                <Input
+                  id={queryId}
+                  value={query}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                    setQuery(e.target.value);
+                  }}
+                />
+                <Button
+                  type="submit"
+                  disabled={needsNewIndex || buildingIndex || runningQuery}
+                  onClick={async () => {
+                    setAnswer("Running query...");
+                    setRunningQuery(true);
+                    // Post the query and nodesWithEmbedding to the server
+                    const result = await fetch("/api/retrieveandquery", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        query,
+                        nodesWithEmbedding,
+                        topK: parseInt(topK),
+                        temperature: parseFloat(temperature),
+                        topP: parseFloat(topP),
+                      }),
+                    });
+
+                    const { error, payload } = await result.json();
+
+                    if (error) {
+                      setAnswer(error);
+                    }
+
+                    if (payload) {
+                      setAnswer(payload.response);
+                    }
+
+                    setRunningQuery(false);
+                  }}
+                >
+                  Submit
+                </Button>
+              </div>
+            </div>
+            <div className="my-2 flex h-1/4 flex-auto flex-col space-y-2">
+              <Label htmlFor={answerId}>Answer:</Label>
+              <Textarea
+                className="flex-1"
+                readOnly
+                value={answer}
+                id={answerId}
+              />
+            </div>
+          </>
+        )}
       </main>
     </>
   );
