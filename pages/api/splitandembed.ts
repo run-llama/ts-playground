@@ -51,7 +51,7 @@ export default async function handler(
     payload: {
       nodesWithEmbedding: nodesWithEmbeddings.map((nodeWithEmbedding) => ({
         text: nodeWithEmbedding.getContent(MetadataMode.NONE),
-        embedding: nodeWithEmbedding.embedding,
+        embedding: nodeWithEmbedding.getEmbedding(),
       })),
     },
   });

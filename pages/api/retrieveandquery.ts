@@ -41,13 +41,10 @@ export default async function handler(
     req.body;
 
   const embeddingResults = nodesWithEmbedding.map((config) => {
-    return {
-      node: new TextNode({ text: config.text }),
-      embedding: config.embedding,
-    };
+    return new TextNode({ text: config.text, embedding: config.embedding });
   });
   const indexDict = new IndexDict();
-  for (const { node } of embeddingResults) {
+  for (const node of embeddingResults) {
     indexDict.addNode(node);
   }
 
@@ -60,10 +57,7 @@ export default async function handler(
 
   index.vectorStore.add(embeddingResults);
   if (!index.vectorStore.storesText) {
-    await index.docStore.addDocuments(
-      embeddingResults.map((result) => result.node),
-      true,
-    );
+    await index.docStore.addDocuments(embeddingResults, true);
   }
   await index.indexStore?.addIndexStruct(indexDict);
   index.indexStruct = indexDict;
