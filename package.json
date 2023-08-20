@@ -22,7 +22,7 @@
     "clsx": "^2.0.0",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.12",
-    "llamaindex": "^0.0.18",
+    "llamaindex": "^0.0.20",
     "lucide-react": "^0.263.1",
     "next": "13.4.12",
     "postcss": "8.4.27",

@@ -50,7 +50,7 @@ export default async function handler(
   res.status(200).json({
     payload: {
       nodesWithEmbedding: nodesWithEmbeddings.map((nodeWithEmbedding) => ({
-        text: nodeWithEmbedding.node.getContent(MetadataMode.NONE),
+        text: nodeWithEmbedding.getContent(MetadataMode.NONE),
         embedding: nodeWithEmbedding.embedding,
       })),
     },
