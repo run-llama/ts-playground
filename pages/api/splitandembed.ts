@@ -38,7 +38,7 @@ export default async function handler(
 
   const nodes = getNodesFromDocument(
     new Document({ text: document }),
-    new SentenceSplitter(chunkSize, chunkOverlap),
+    new SentenceSplitter({ chunkSize, chunkOverlap }),
   );
 
   const nodesWithEmbeddings = await VectorStoreIndex.getNodeEmbeddingResults(
