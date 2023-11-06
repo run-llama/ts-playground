@@ -51,7 +51,11 @@ export default async function handler(
   const index = await VectorStoreIndex.init({
     indexStruct: indexDict,
     serviceContext: serviceContextFromDefaults({
-      llm: new OpenAI({ temperature: temperature, topP: topP }),
+      llm: new OpenAI({
+        model: "gpt-4-1106-preview",
+        temperature: temperature,
+        topP: topP,
+      }),
     }),
   });
 
