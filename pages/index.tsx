@@ -11,7 +11,7 @@ import essay from "@/lib/essay";
 const DEFAULT_CHUNK_SIZE = 1024;
 const DEFAULT_CHUNK_OVERLAP = 20;
 const DEFAULT_TOP_K = 2;
-const DEFAULT_TEMPERATURE = 0;
+const DEFAULT_TEMPERATURE = 0.1;
 const DEFAULT_TOP_P = 1;
 
 export default function Home() {
